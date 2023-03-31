@@ -4,42 +4,53 @@ import Footer from './footer';
 import Button from './Button';
 import Tasks from './Tasks';
 import {useState} from 'react'
+import AddTask from './AddTask';
 function App() {
   const [tasks,setTasks] = useState([
     {
       id:1,
-      text:'Chandni'
+      text:'Chandni',
+      reminder:true
     },
     {
       id:2,
-      text:'sagar'
+      text:'sagar',
+      reminder:true
     },
     {
       id:3,
-      text:'Dona'
+      text:'Dona',
+      reminder:true
     },
     {
       id:4,
-      text:'Thomas'
+      text:'Thomas',
+      reminder:false
     }
   ])
   const onDelete = (id) => {
     setTasks(tasks.filter((task) => task.id !== id))
   }
+  const onReminder = (id) => {
+    setTasks(tasks.map((task) => task.id === id? {...task, reminder:!task.reminder}: task))
+  }
+  const onAdd = (task) =>{
+    const id = Math.floor(Math.random()*1000 + 4)
+    const newOne = {...task, id}
+    setTasks([...tasks, newOne])
+    console.log(task)
+
+  } 
+
   return(
     <div className="App">
       <header className="App-header">
         <h1>My Profile</h1>
-        <div>
-        <form>
-          <label>
-            Name
-          </label>
-          <input type="text" placeholder='name'></input>
-        </form>
-      </div>
+        
       <div><Button color= 'blue' text= 'Submit'></Button></div>
-      <Tasks tasks = {tasks} onClick = {onDelete} />
+      <AddTask onAdd={onAdd}></AddTask>
+      <Tasks tasks = {tasks} onClick = {onDelete} onReminder= {onReminder} />
+
     <Footer abd = 'Chandni'></Footer>
 
 
